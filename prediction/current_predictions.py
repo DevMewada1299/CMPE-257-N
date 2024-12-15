@@ -30,8 +30,10 @@ def getPredsOnCurrentDay():
     except ValueError:
         print("Invalid date format! Please enter the date in YYYY-MM-DD format.")
 
-
-    s = selected_date - timedelta(days=1)
+    if selected_date.weekday() == 0:
+        s = selected_date - timedelta(days=3)
+    else:
+        s = selected_date - timedelta(days=1)
 
     df = yf.download('NVDA', start=s, end=selected_date)
 
