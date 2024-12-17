@@ -20,15 +20,15 @@ col_indices = [2, 3, 1]
 
 model = StockLSTM(input_size, hidden_size, num_layers, output_size)
 model.load_state_dict(torch.load('saved_model/stock_price_model.pth'))
-date_input = input("Enter a date (in YYYY-MM-DD format): ")
+#date_input = input("Enter a date (in YYYY-MM-DD format): ")
 
-def getPredsOnCurrentDay():
+def getPredsOnCurrentDay(selectedDate):
 
     try:
-        selected_date = datetime.strptime(date_input, "%Y-%m-%d").date()
+        selected_date = datetime.strptime(selectedDate, "%Y-%m-%d").date()
         print(f"You entered: {selected_date}")
     except ValueError:
-        print("Invalid date format! Please enter the date in YYYY-MM-DD format.")
+        print("Nope current preds")
 
     if selected_date.weekday() == 0:
         s = selected_date - timedelta(days=3)
@@ -40,7 +40,7 @@ def getPredsOnCurrentDay():
     scaled_data = scaler_dict[0].fit_transform(df)
     scaler = scaler_dict[0]
 
-    new_input_sequence = scaled_data[-sequence_length:, :]  # Use the latest sequence
+    new_input_sequence = scaled_data[-sequence_length:, :]  
     new_input_sequence = torch.tensor(new_input_sequence, dtype=torch.float32).unsqueeze(0)
 
     model.eval()
@@ -52,19 +52,14 @@ def getPredsOnCurrentDay():
 
     # Print predicted values
     high, low, avg_close = denorm_predictions[0]
-    print(f"Predicted High Price for next 5 days: {high}")
-    print(f"Predicted Low Price for next 5 days: {low}")
-    print(f"Predicted Avg Closing Price for next 5 days: {avg_close}")
+
 
     predicted_values = {}
-    predicted_values['high'] = high
-    predicted_values['low'] = low
-    predicted_values['avg_close'] = avg_close
+    predicted_values['high'] = round(high,3)
+    predicted_values['low'] = round(low,3)
+    predicted_values['avg_close'] = round(avg_close,3)
 
     return predicted_values
 
 
-p = getPredsOnCurrentDay() #values returned here
-
-print(p.values())
 

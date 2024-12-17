@@ -45,7 +45,7 @@ class StockDataset(Dataset):
     
 def getDataFrameForTraining():
     
-    df = yf.download('NVDA', start='2024-01-01', end='2024-12-14')
+    df = yf.download('NVDA', start='2024-01-01', end='2024-12-10')
 
     return df
 

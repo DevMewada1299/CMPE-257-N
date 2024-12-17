@@ -1,0 +1,52 @@
+<!-- <!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Prediction Results</title>
+</head>
+<body>
+    <h1>Prediction Results for {{ date }}</h1>
+    <pre>{{ predictions }}</pre>
+    <a href="/">Go Back</a>
+</body>
+</html> -->
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SmartTrader Console</title>
+</head>
+<body>
+    <h1><b>SmartTrader Console</b></h1>
+
+    <!-- Date Input Form -->
+    <form method="POST" action="/">
+        <label>Assume today's date is:</label>
+        <input type="date" name="date" required>
+        <button type="submit">Predict</button>
+    </form>
+
+    {% if selected_date %}
+        <p>You have selected today as {{ selected_date }}. SmartTrader has made the following predictions.</p>
+
+        <h2><b>Predicted prices for the next five business days (in USD) are:</b></h2>
+        <table border="1">
+            <tr>
+                <td><b>Highest Price</b></td>
+                <td>{{ predictions['high'] }}</td>
+            </tr>
+            <tr>
+                <td><b>Lowest Price</b></td>
+                <td>{{ predictions['low'] }}</td>
+            </tr>
+            <tr>
+                <td><b>Average Closing Price</b></td>
+                <td>{{ predictions['avg_close'] }}</td>
+            </tr>
+        </table>
+    {% endif %}
+</body>
+</html>

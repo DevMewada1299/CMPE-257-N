@@ -11,6 +11,7 @@ from sklearn.model_selection import GridSearchCV
 from Model.StockLSTM import StockLSTM
 from data.data_download import saved_df
 from data.data_download import scaler_dict
+from sklearn.metrics import mean_squared_error, root_mean_squared_error, mean_absolute_error
 
 input_size = 6  
 hidden_size = 64
@@ -43,6 +44,11 @@ with torch.no_grad():
     col_indices = [2, 3, 1]  # High, Low, Close columns
     denorm_predictions = denormalize(scaler, predictions, col_indices)
 
-    print("Predicted High:", denorm_predictions[0][0])
-    print("Predicted Low:", denorm_predictions[0][1])
-    print("Predicted Avg Close:", denorm_predictions[0][2])
+    print(input_sequence.shape,predictions.shape)
+
+    #print("RMSE :", root_mean_squared_error(input_sequence.numpy(), predictions))
+    # print("RMSE :", mean_absolute_error(y_test.numpy()[:], test_predictions[:]))
+    # print("RMSE :", mean_squared_error(y_test.numpy()[:], test_predictions[:]))
+
+    
+
